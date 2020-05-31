@@ -2,20 +2,27 @@ package com.example.formationcours;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+// import org.springframework.web.client.RestTemplate;
+
+// import org.springframework.web.client.RestTemplate;
+
+// import org.springframework.web.client.RestTemplate;
+
+// import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +30,18 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    static final String BASE_URL = "https://acnhapi.com/v1/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        showList();
+        // makeAPIcall();
+    }
+
+    private void showList() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
@@ -40,4 +54,30 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new ListAdapter(input);
         recyclerView.setAdapter(mAdapter);
     }
+
+    private void makeApiCall() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        AcnhAPI acnhAPI = retrofit.create(AcnhAPI.class);
+
+        Call<RestAcnhAPIResponse> call = acnhAPI.getAcnhResponse();
+        // call.enqueue(this);
+
+    }
+
+    /*
+    private void makeAPIcall () {
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject("https://www.instagram.com/ihanan95/?__a=1", String.class);
+        System.out.println("####### REPONSE API :\n" + response);
+    }
+     */
+
 }

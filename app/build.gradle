@@ -35,5 +35,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Recycler
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    // Spring REST
+    // implementation("org.springframework.boot:spring-boot-starter-web:1.5.3.RELEASE")
+
+    //implementation 'org.springframework.android:spring-android:2.0.3.RELEASE'
 }
