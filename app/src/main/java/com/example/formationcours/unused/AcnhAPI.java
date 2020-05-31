@@ -1,4 +1,4 @@
-package com.example.formationcours;
+package com.example.formationcours.unused;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

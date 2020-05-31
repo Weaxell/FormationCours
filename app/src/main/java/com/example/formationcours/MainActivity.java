@@ -2,6 +2,8 @@ package com.example.formationcours;
 
 import android.os.Bundle;
 
+import com.example.formationcours.unused.AcnhAPI;
+import com.example.formationcours.unused.RestAcnhAPIResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,8 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 // import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -30,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private ExecutorService executorService;
+
     static final String BASE_URL = "https://acnhapi.com/v1/";
 
     @Override
@@ -38,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         showList();
-        // makeAPIcall();
+        System.out.println("####### Avant la requete");
+        System.out.println("####### Resultat de la requete :\n" + jsonGetRequest("https://acnhapi.com/v1/villagers/56"));
+        System.out.println("####### Apres la requete");
     }
 
     private void showList() {
@@ -55,6 +72,31 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
+    private String getVillagersJson() {
+        return null;
+    }
+
+    private String jsonGetRequest(String urlQueryString) {
+        CallAPI callableAPI = new CallAPI(urlQueryString);
+        executorService = Executors.newSingleThreadExecutor();
+        Future<String> future = executorService.submit(callableAPI);
+
+        try {
+            return future.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // e.printStackTrace();
+        }
+
+        return "####### IL N Y A SUREMENT PAS INTERNET";
+    }
+
+
+
+
+
+    /*
     private void makeApiCall() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -71,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         // call.enqueue(this);
 
     }
+     */
+
 
     /*
     private void makeAPIcall () {
