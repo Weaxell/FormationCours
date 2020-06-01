@@ -2,10 +2,7 @@ package com.example.formationcours;
 
 import android.os.Bundle;
 
-import com.example.formationcours.unused.AcnhAPI;
-import com.example.formationcours.unused.RestAcnhAPIResponse;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,23 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 // import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,19 +29,22 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private ArrayList<Villager> villagerList;
+
     private ExecutorService executorService;
 
-    static final String BASE_URL = "https://acnhapi.com/v1/";
+    private final String API_URL = "https://acnhapi.com/v1/villagers/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        villagerList = getAPIVillagersList();
+
+        System.out.println("##### Taille de la liste : " + villagerList.size());
+
         showList();
-        System.out.println("####### Avant la requete");
-        System.out.println("####### Resultat de la requete :\n" + jsonGetRequest("https://acnhapi.com/v1/villagers/56"));
-        System.out.println("####### Apres la requete");
     }
 
     private void showList() {
@@ -65,18 +54,49 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         List<String> input = new ArrayList<>();
+        /*
         for (int i = 0; i < 100; i++) {
             input.add("Test" + i);
         }// define an adapter
+         */
+        int i = 0;
+        String strName = "";
+        for(Villager v : villagerList) {
+            strName = v.getName().get("name-EUfr");
+            input.add("Villager n0" + i + " : " + strName);
+            i++;
+        }
+
         mAdapter = new ListAdapter(input);
         recyclerView.setAdapter(mAdapter);
     }
 
-    private String getVillagersJson() {
-        return null;
+    private ArrayList<Villager> getAPIVillagersList() {
+        ArrayList<Villager> listRes = new ArrayList<Villager>();
+        String strVillager = "";
+
+        int i = 1;
+        while(strVillager != null) {
+            try {
+                strVillager = null;
+                strVillager = jsonGetVillagerRequest(API_URL + i);
+            } catch(Exception e) {
+                break;
+            }
+
+            Gson gson = new Gson();
+            Villager villager = gson.fromJson(strVillager, Villager.class);
+            listRes.add(villager);
+            i++;
+        }
+        for(Villager v : listRes) {
+            if(v == null)
+                listRes.remove(v);
+        }
+        return listRes;
     }
 
-    private String jsonGetRequest(String urlQueryString) {
+    private String jsonGetVillagerRequest(String urlQueryString) {
         CallAPI callableAPI = new CallAPI(urlQueryString);
         executorService = Executors.newSingleThreadExecutor();
         Future<String> future = executorService.submit(callableAPI);
