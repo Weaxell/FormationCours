@@ -9,6 +9,7 @@ class Villager {
     public String birthday;
     public String species;
     public String gender;
+    public String icon_uri;
 
     public int getId() {
         return id;
@@ -32,6 +33,10 @@ class Villager {
 
     public String getPersonality() {
         return personality;
+    }
+
+    public String getIcon_uri() {
+        return icon_uri;
     }
 
     public String toString() {

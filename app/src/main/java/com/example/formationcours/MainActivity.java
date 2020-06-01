@@ -59,15 +59,8 @@ public class MainActivity extends AppCompatActivity {
             input.add("Test" + i);
         }// define an adapter
          */
-        int i = 0;
-        String strName = "";
-        for(Villager v : villagerList) {
-            strName = v.getName().get("name-EUfr");
-            input.add("Villager n0" + i + " : " + strName);
-            i++;
-        }
 
-        mAdapter = new ListAdapter(input);
+        mAdapter = new ListAdapter(villagerList);
         recyclerView.setAdapter(mAdapter);
     }
 
