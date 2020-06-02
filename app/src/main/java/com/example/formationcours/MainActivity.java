@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private ArrayList<Villager> villagerList;
+    private ArrayList<Villager> listFavoriteVillagers;
 
     private ExecutorService executorService;
 
@@ -55,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
             villagerList = getAPIVillagersList();
         }
 
-
-        System.out.println("##### Taille de la liste : " + villagerList.size());
+        listFavoriteVillagers = getFavoritesFromCache();
+        if(listFavoriteVillagers == null)
+            listFavoriteVillagers = new ArrayList<Villager>();
 
         showList();
     }
@@ -98,6 +100,26 @@ public class MainActivity extends AppCompatActivity {
                 .apply();
     }
 
+    private ArrayList<Villager> getFavoritesFromCache() {
+        String jsonFavorites = sharedPreferences.getString("jsonFavorites", null);
+
+        if(jsonFavorites == null)
+            return null;
+        else {
+            Type listType = new TypeToken<ArrayList<Villager>>(){}.getType();
+            return gson.fromJson(jsonFavorites, listType);
+        }
+    }
+
+    private void saveFavorites() {
+        String jsonStr = gson.toJson(listFavoriteVillagers);
+
+        sharedPreferences
+                .edit()
+                .putString("jsonFavorites", jsonStr)
+                .apply();
+    }
+
     private ArrayList<Villager> getAPIVillagersList() {
         ArrayList<Villager> listRes = new ArrayList<Villager>();
         String strVillager = "";
@@ -126,6 +148,17 @@ public class MainActivity extends AppCompatActivity {
         return listRes;
     }
 
+    public boolean isVillagerFavorite(Villager v) {
+        return listFavoriteVillagers.contains(v);
+    }
+
+    public void proceedFavorites(Villager v) {
+        if(listFavoriteVillagers.contains(v))
+            listFavoriteVillagers.remove(v);
+        else
+            listFavoriteVillagers.add(v);
+    }
+
     private String jsonGetVillagerRequest(String urlQueryString) {
         CallAPI callableAPI = new CallAPI(urlQueryString);
         executorService = Executors.newSingleThreadExecutor();
@@ -149,9 +182,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveFavorites();
+    }
 
     /*
     private void makeApiCall() {

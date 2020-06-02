@@ -5,7 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -71,7 +73,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final Villager villager = villagers.get(position);
@@ -84,7 +86,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             }
         });
 
+        holder.iconImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Villager vill = villagers.get(position);
+                mainActivity.proceedFavorites(vill);
+                notifyItemChanged(position);
 
+            }
+        });
 
         holder.txtVillBirthday.setText("Birthday: " + villager.getBirthday());
         holder.txtVillPersonality.setText("Personality: " + villager.getPersonality());
@@ -92,7 +102,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.txtVillIdNumber.setText("ID n°" + villager.getId());
 
         new DownloadImageTask(holder.iconImgView).execute(villager.getIcon_uri());
-
+        if(mainActivity.isVillagerFavorite(villager))
+            holder.iconImgView.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity.getApplicationContext(), R.drawable.favorite_back));
 
     }
 
