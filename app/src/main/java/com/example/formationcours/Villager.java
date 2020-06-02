@@ -1,8 +1,9 @@
 package com.example.formationcours;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-class Villager {
+class Villager implements Serializable {
     public int id;
     public HashMap<String, String> name;
     public String personality;
@@ -10,6 +11,7 @@ class Villager {
     public String species;
     public String gender;
     public String icon_uri;
+    public String image_uri;
 
     public int getId() {
         return id;
@@ -17,6 +19,10 @@ class Villager {
 
     public HashMap<String, String> getName() {
         return name;
+    }
+
+    public String getNameFR() {
+        return getName().get("name-EUfr");
     }
 
     public String getBirthday() {
@@ -37,6 +43,10 @@ class Villager {
 
     public String getIcon_uri() {
         return icon_uri;
+    }
+
+    public String getImage_uri() {
+        return image_uri;
     }
 
     public String toString() {

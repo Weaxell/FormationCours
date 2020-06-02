@@ -1,8 +1,5 @@
 package com.example.formationcours;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +8,33 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private ArrayList<Villager> villagers;
+    private MainActivity mainActivity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        TextView txtHeader;
-        TextView txtFooter;
         View layout;
+        TextView txtVillName;
+        TextView txtVillBirthday;
+        TextView txtVillPersonality;
+        TextView txtVillSpecies;
+        TextView txtVillIdNumber;
         ImageView iconImgView;
 
         ViewHolder(View v) {
             super(v);
             layout = v;
-            txtHeader = (TextView) v.findViewById(R.id.firstLine);
-            txtFooter = (TextView) v.findViewById(R.id.secondLine);
+            txtVillName = (TextView) v.findViewById(R.id.textViewName);
+            txtVillBirthday = (TextView) v.findViewById(R.id.textViewBirthday);
+            txtVillPersonality = (TextView) v.findViewById(R.id.textViewPersonality);
+            txtVillSpecies = (TextView) v.findViewById(R.id.textViewSpecies);
+            txtVillIdNumber = (TextView) v.findViewById(R.id.textViewIdNumber);
             iconImgView = (ImageView) v.findViewById(R.id.icon);
         }
     }
@@ -48,8 +50,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListAdapter(ArrayList<Villager> myDataset) {
+    public ListAdapter(ArrayList<Villager> myDataset, MainActivity pMainActivity) {
         villagers = myDataset;
+        mainActivity = pMainActivity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -60,7 +63,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(
                 parent.getContext());
         View v =
-                inflater.inflate(R.layout.row_layout, parent, false);
+                inflater.inflate(R.layout.row_layout2, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -72,18 +75,24 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final Villager villager = villagers.get(position);
-        holder.txtHeader.setText(villager.getName().get("name-EUfr"));
-        holder.txtHeader.setOnClickListener(new View.OnClickListener() {
+        holder.txtVillName.setText(villager.getName().get("name-EUfr"));
+        holder.txtVillName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                // remove(position);
+                mainActivity.displayVillager(villagers.get(position));
             }
         });
 
-        holder.txtFooter.setText(" - Species: " + villager.getIcon_uri() + "\n" +
-                " - Birthday: " + villager.getBirthday());
+
+
+        holder.txtVillBirthday.setText("Birthday: " + villager.getBirthday());
+        holder.txtVillPersonality.setText("Personality: " + villager.getPersonality());
+        holder.txtVillSpecies.setText("Species: " + villager.getSpecies());
+        holder.txtVillIdNumber.setText("ID n°" + villager.getId());
 
         new DownloadImageTask(holder.iconImgView).execute(villager.getIcon_uri());
+
 
     }
 
