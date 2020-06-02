@@ -8,13 +8,32 @@ Le joueur cohabite avec ses voisins, des animaux anthropomorphes. Ces derniers p
 
 Mon application porte donc sur ce sujet, elle utilise l'API ACNHAPI pour récupérer ces villageois, les lister, classer, filtrer.
 
+## Consignes respectées
+
+ - affichage d'une liste
+ - second écran détail d'un élément
+ - appel API
+ - stockage en cache
+ - Autres :
+     - Mise en favoris
+     - Recherche implémentée mais ne se réêrcute pas sur la vue
+
 ## Fonctionnalités
 
 Les fonctionnalités de l'application sont :
  - affichage de la liste complète des villageois du jeu
- <img src="readme_images/screen_list.png" alt="détail pokemon">
- - affichage de la vue détaillée d'un villageois
- - marquer en favoris un villageois
+ <img src="readme_images/screen_list.png">
+ - affichage de la vue détaillée d'un villageois en appuyant sur son nom
+ <img src="readme_images/screen_vue_detaillee.png">
+ - marquer en favoris un villageois en appuyant sur son icone à gauche dans la liste
+ <img src="readme_images/screen_favoris.png">
 
 Non fonctionnelles :
  - recherche d'un villageois grâce à son nom (mais ne fonctionne pas)
+ <img src="readme_images/screen_recherche.png">
+ 
+ ## Difficultés
+ 
+ L'API que j'ai utilisée me retournait, pour la liste de tous les villageois, une liste avec des intitulés différents à chaque nouvel item, débutant avec le JSON avec ce projet je ne suis pas parvenu à placer cette liste dans des objets avec Retrofit.
+ 
+ J'ai donc utilisé une requête de type HttpURLConnection pour récupérer le JSON souhaité et récupérer ensuite les objets avec Gson.
