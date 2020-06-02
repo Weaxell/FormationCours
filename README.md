@@ -39,3 +39,8 @@ Non fonctionnelles :
  L'API que j'ai utilisée me retournait, pour la liste de tous les villageois, une liste avec des intitulés différents à chaque nouvel item, débutant avec le JSON avec ce projet je ne suis pas parvenu à placer cette liste dans des objets avec Retrofit.
  
  J'ai donc utilisé une requête de type HttpURLConnection pour récupérer le JSON souhaité et récupérer ensuite les objets avec Gson.
+ 
+ ## Démonstration vidéo
+ Pour une démo plus vivante, voici une vidéo de démonstration de l'application : https://youtu.be/xbqZ_XVPxKw
+ 
+ Vous trouverez les timecodes correspondant à la démonstration de chaque fonctionnalité dans la description de la vidéo.
