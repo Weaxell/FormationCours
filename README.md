@@ -12,7 +12,7 @@ Mon application porte donc sur ce sujet, elle utilise l'API ACNHAPI pour récup�
 
 Les fonctionnalités de l'application sont :
  - affichage de la liste complète des villageois du jeu
- ![Liste des villageois](/readme_images/screen_list.png)
+ <img src="readme_images/screen_list.png" alt="détail pokemon">
  - affichage de la vue détaillée d'un villageois
  - marquer en favoris un villageois
 
