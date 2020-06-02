@@ -23,8 +23,10 @@ Mon application porte donc sur ce sujet, elle utilise l'API ACNHAPI pour récup�
 Les fonctionnalités de l'application sont :
  - affichage de la liste complète des villageois du jeu
  <img src="readme_images/screen_list.png">
+ 
  - affichage de la vue détaillée d'un villageois en appuyant sur son nom
  <img src="readme_images/screen_vue_detaillee.png">
+ 
  - marquer en favoris un villageois en appuyant sur son icone à gauche dans la liste
  <img src="readme_images/screen_favoris.png">
 
