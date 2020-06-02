@@ -16,7 +16,7 @@ Mon application porte donc sur ce sujet, elle utilise l'API ACNHAPI pour récup�
  - stockage en cache
  - Autres :
      - Mise en favoris
-     - Recherche implémentée mais ne se réêrcute pas sur la vue
+     - Recherche implémentée mais ne se répercute pas sur la vue
 
 ## Fonctionnalités
 
