@@ -105,7 +105,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         new DownloadImageTask(holder.iconImgView).execute(villager.getIcon_uri());
         if(mainActivity.isVillagerFavorite(villager))
-            holder.iconImgView.setBackgroundDrawable(ContextCompat.getDrawable(mainActivity.getApplicationContext(), R.drawable.favorite_back));
+            holder.txtVillName.setText("⭐ " + holder.txtVillName.getText() + " ⭐");
 
     }
 
