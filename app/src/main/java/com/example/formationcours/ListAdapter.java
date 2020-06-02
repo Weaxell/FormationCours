@@ -3,6 +3,7 @@ package com.example.formationcours;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private ArrayList<Villager> villagers;
@@ -111,6 +113,43 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return villagers.size();
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                ArrayList<Villager> villagersFiltered;
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    villagersFiltered = villagers;
+                } else {
+                    ArrayList<Villager> filteredList = new ArrayList<>();
+                    for (Villager row : villagers) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getNameFR().toString().toLowerCase().contains(charString.toLowerCase()) || row.getSpecies().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    villagersFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = villagersFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                ArrayList<Villager> villagersFiltered = (ArrayList<Villager>) filterResults.values;
+
+                // refresh the list with filtered data
+                notifyDataSetChanged();
+            }
+        };
     }
 
 }
